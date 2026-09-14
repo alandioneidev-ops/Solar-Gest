@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }} | Solar Gest{% endblock %}
+{% block heading %}{% if tipo == 'usinas' %}<p class="eyebrow">{{ ui.operation }}</p><h1>{{ ui.plants }}</h1><p class="subtitle">{{ ui.solar_operation }}</p>{% else %}<p class="eyebrow">{{ ui.user_management }}</p><h1>{{ ui.team }}</h1><p class="subtitle">{{ ui.team_description }}</p>{% endif %}{% endblock %}
+{% block content %}
+<section class="panel">
+    {% if tipo == 'usinas' %}
+    <div class="panel-header"><h2>{{ ui.solar_systems }}</h2><a class="button" href="{% url 'novo_sistema' %}">+ {{ ui.new_system }}</a></div>
+    <div class="table-wrap"><table><thead><tr><th>{{ ui.plants }}</th><th>Projeto</th><th>{{ ui.clients }}</th><th>Potência</th><th>Status</th></tr></thead><tbody>{% for item in sistemas %}<tr><td><strong>{{ item.nome }}</strong></td><td>{{ item.projeto.codigo }}</td><td>{{ item.projeto.cliente.nome }}</td><td>{{ item.potencia_kwp|floatformat:2 }} kWp</td><td>{{ item.get_status_display }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">{{ ui.no_plants }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}
+    <div class="panel-header"><h2>{{ ui.active_users }}</h2><a class="button" href="{% url 'admin:auth_user_add' %}">+ {{ ui.team }}</a></div>
+    <div class="table-wrap"><table><thead><tr><th>{{ ui.team }}</th><th>Nome</th><th>E-mail</th><th>Cargo</th></tr></thead><tbody>{% for item in usuarios %}<tr><td><strong>{{ item.username }}</strong></td><td>{{ item.get_full_name|default:'-' }}</td><td>{{ item.email|default:'-' }}</td><td>{% if item.is_superuser %}Administrador{% elif item.perfil %}{{ item.perfil.get_cargo_display }}{% else %}Usuário{% endif %}</td></tr>{% empty %}<tr><td colspan="4" class="empty">{{ ui.no_users }}</td></tr>{% endfor %}</tbody></table></div>
+    {% endif %}
+</section>
+{% endblock %}

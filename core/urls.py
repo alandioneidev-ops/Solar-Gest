@@ -14,7 +14,7 @@ from .views import (
     comissoes, contas_pagar, contas_receber, financeiro, fluxo_caixa,
     nova_comissao, nova_conta_pagar, nova_conta_receber,
 )
-from .views import auditoria, configuracoes, exportar_relatorio, gestao, relatorios
+from .views import auditoria, configuracoes, equipe, exportar_relatorio, gestao, relatorios, usinas
 
 
 urlpatterns = [
@@ -55,6 +55,8 @@ urlpatterns = [
     path("gestao/relatorios/exportar/", exportar_relatorio, name="exportar_relatorio"),
     path("gestao/auditoria/", auditoria, name="auditoria"),
     path("gestao/configuracoes/", configuracoes, name="configuracoes"),
+    path("usinas/", usinas, name="usinas"),
+    path("equipe/", equipe, name="equipe"),
     path("login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 ]

@@ -13,7 +13,9 @@
         .app { min-height: 100vh; display: flex; }
         .sidebar { width: 248px; flex: 0 0 248px; padding: 28px 16px; background: var(--ink); color: #dce8ed; }
         .brand { display: flex; align-items: center; gap: 10px; margin: 0 12px 42px; color: var(--white); font-size: 22px; font-weight: 800; letter-spacing: .3px; }
-        .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--sun); color: var(--ink); }
+        .brand-mark { position: relative; display: block; width: 40px; height: 34px; overflow: hidden; border-radius: 9px; background: linear-gradient(145deg, #f8cf62, #f4b942); }
+        .brand-sun { position: absolute; top: 4px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: #fff3bd; box-shadow: 0 0 0 3px rgba(255, 243, 189, .2); }
+        .brand-panel { position: absolute; left: 5px; bottom: 5px; width: 27px; height: 16px; transform: skewY(-8deg); border: 2px solid #dce8ed; border-radius: 2px; background: repeating-linear-gradient(90deg, #087f8c 0 5px, #bde4df 5px 6px), repeating-linear-gradient(0deg, transparent 0 5px, #bde4df 5px 6px); box-shadow: 4px 5px 0 -2px var(--ink); }
         .brand span { color: var(--sun); }
         .nav-label { margin: 0 12px 10px; color: #8fa8b4; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
         .nav { display: grid; gap: 5px; }
@@ -50,19 +52,19 @@
 <body>
 <div class="app">
     <aside class="sidebar">
-        <a class="brand" href="{% url 'inicio' %}"><span class="brand-mark">☼</span> Solar<span>Gest</span></a>
-        <p class="nav-label">Operação</p>
+        <a class="brand" href="{% url 'inicio' %}"><span class="brand-mark" aria-hidden="true"><span class="brand-sun"></span><span class="brand-panel"></span></span> Solar<span>Gest</span></a>
+        <p class="nav-label">{{ ui.operation }}</p>
         <nav class="nav" aria-label="Navegação principal">
-            <a class="active" href="{% url 'inicio' %}"><span class="nav-icon">⌂</span> Dashboard</a>
-            <a href="{% url 'comercial' %}"><span class="nav-icon">◈</span> Comercial</a>
-            <a href="{% url 'leads' %}"><span class="nav-icon">◉</span> Leads</a>
-            <a href="{% url 'novo_cliente' %}"><span class="nav-icon">●</span> Clientes</a>
-            <a href="{% url 'engenharia' %}"><span class="nav-icon">⌁</span> Engenharia</a>
-            <a href="{% url 'financeiro' %}"><span class="nav-icon">¤</span> Financeiro</a>
-            <a href="{% url 'gestao' %}"><span class="nav-icon">◫</span> Gestão</a>
-            <a href="#"><span class="nav-icon">▣</span> Usinas</a>
-            <a href="#"><span class="nav-icon">⚒</span> Equipe</a>
-            <a href="#"><span class="nav-icon">▤</span> Relatórios</a>
+            <a class="active" href="{% url 'inicio' %}"><span class="nav-icon">⌂</span> {{ ui.dashboard }}</a>
+            <a href="{% url 'comercial' %}"><span class="nav-icon">◈</span> {{ ui.commercial }}</a>
+            <a href="{% url 'leads' %}"><span class="nav-icon">◉</span> {{ ui.leads }}</a>
+            <a href="{% url 'novo_cliente' %}"><span class="nav-icon">●</span> {{ ui.clients }}</a>
+            <a href="{% url 'engenharia' %}"><span class="nav-icon">⌁</span> {{ ui.engineering }}</a>
+            <a href="{% url 'financeiro' %}"><span class="nav-icon">¤</span> {{ ui.finance }}</a>
+            <a href="{% url 'gestao' %}"><span class="nav-icon">◫</span> {{ ui.management }}</a>
+            <a href="{% url 'usinas' %}"><span class="nav-icon">▣</span> {{ ui.plants }}</a>
+            <a href="{% url 'equipe' %}"><span class="nav-icon">⚒</span> {{ ui.team }}</a>
+            <a href="{% url 'relatorios' %}"><span class="nav-icon">▤</span> {{ ui.reports }}</a>
         </nav>
     </aside>
     <main class="main">
@@ -71,8 +73,8 @@
             <div class="account">
                 <span class="avatar">{{ user.username|first|upper }}</span>
                 <span><span class="account-name">{{ user.get_full_name|default:user.username }}</span><span class="account-role">{% if user.is_superuser %}Administrador{% elif user.perfil %}{{ user.perfil.get_cargo_display }}{% else %}Usuário{% endif %}</span></span>
-                <form class="language-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><label class="sr-only" for="language-select">Idioma</label><select class="language-select" id="language-select" name="language" onchange="this.form.submit()">{% get_current_language as CURRENT_LANGUAGE %}{% get_available_languages as AVAILABLE_LANGUAGES %}{% for code, name in AVAILABLE_LANGUAGES %}<option value="{{ code }}"{% if code == CURRENT_LANGUAGE %} selected{% endif %}>{{ name }}</option>{% endfor %}</select></form>
-                <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout" type="submit">Sair</button></form>
+                <form class="language-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><label class="sr-only" for="language-select">{{ ui.language }}</label><select class="language-select" id="language-select" name="language" onchange="this.form.submit()">{% get_current_language as CURRENT_LANGUAGE %}{% get_available_languages as AVAILABLE_LANGUAGES %}{% for code, name in AVAILABLE_LANGUAGES %}<option value="{{ code }}"{% if code == CURRENT_LANGUAGE %} selected{% endif %}>{{ name }}</option>{% endfor %}</select></form>
+                <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout" type="submit">{{ ui.logout }}</button></form>
             </div>
         </header>
         {% block content %}{% endblock %}

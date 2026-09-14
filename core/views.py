@@ -414,6 +414,24 @@ def configuracoes(request):
     return render(request, 'configuracoes.html', {'config': config})
 
 
+@login_required
+def usinas(request):
+    return render(request, 'gestao_lista.html', {
+        'tipo': 'usinas', 'titulo': 'Usinas', 'eyebrow': 'Operação',
+        'descricao': 'Sistemas solares instalados e em acompanhamento.',
+        'sistemas': SistemaSolar.objects.select_related('projeto', 'projeto__cliente').all(),
+    })
+
+
+@login_required
+def equipe(request):
+    return render(request, 'gestao_lista.html', {
+        'tipo': 'equipe', 'titulo': 'Equipe', 'eyebrow': 'Gestão de usuários',
+        'descricao': 'Usuários e responsáveis pela operação do Solar Gest.',
+        'usuarios': User.objects.filter(is_active=True).select_related('perfil').order_by('first_name', 'username'),
+    })
+
+
 def _total(queryset, campo='valor'):
     return queryset.aggregate(total=Sum(campo))['total'] or Decimal('0')
 

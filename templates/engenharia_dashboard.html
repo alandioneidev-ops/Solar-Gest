@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Engenharia | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">Fase 3</p><h1>Engenharia</h1><p class="subtitle">Projetos solares do cálculo à documentação técnica.</p>{% endblock %}
+{% block content %}
+<section class="cards" aria-label="Indicadores de engenharia">
+    <a class="card card-link" href="{% url 'projetos' %}"><p class="card-label">Projetos</p><strong class="number">{{ total_projetos }}</strong></a>
+    <a class="card card-link" href="{% url 'dimensionamentos' %}"><p class="card-label">Dimensionamentos</p><strong class="number">{{ total_dimensionamentos }}</strong></a>
+    <a class="card card-link" href="{% url 'sistemas' %}"><p class="card-label">Sistemas solares</p><strong class="number">{{ total_sistemas }}</strong></a>
+    <a class="card card-link" href="{% url 'equipamentos' %}"><p class="card-label">Equipamentos ativos</p><strong class="number">{{ total_equipamentos }}</strong></a>
+</section>
+<section class="panel">
+    <div class="panel-header"><div><h2>Projetos recentes</h2><p class="subtitle">Acompanhe o avanço dos projetos fotovoltaicos.</p></div><a class="button" href="{% url 'novo_projeto' %}">+ Novo projeto</a></div>
+    {% if projetos %}<div class="table-wrap"><table><thead><tr><th>Código</th><th>Projeto</th><th>Cliente</th><th>Status</th></tr></thead><tbody>{% for item in projetos %}<tr><td><strong>{{ item.codigo }}</strong></td><td>{{ item.nome }}</td><td>{{ item.cliente.nome }}</td><td>{{ item.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhum projeto cadastrado. Crie o primeiro projeto a partir de um cliente.</p>{% endif %}
+</section>
+{% endblock %}

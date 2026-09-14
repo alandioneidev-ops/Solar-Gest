@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+venv/
+.venv/
+env/
+
+# Local development files
+db.sqlite3
+media/
+*.log
+.env
+.env.*
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Django generated files
+staticfiles/

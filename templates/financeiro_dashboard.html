@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Financeiro | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">Fase 5</p><h1>Financeiro</h1><p class="subtitle">Visão integrada de compromissos, caixa e comissões.</p>{% endblock %}
+{% block content %}
+<section class="cards" aria-label="Indicadores financeiros">
+    <a class="card card-link" href="{% url 'contas_pagar' %}"><p class="card-label">A pagar</p><strong class="number">R$ {{ total_pagar|floatformat:2 }}</strong></a>
+    <a class="card card-link" href="{% url 'contas_receber' %}"><p class="card-label">A receber</p><strong class="number">R$ {{ total_receber|floatformat:2 }}</strong></a>
+    <a class="card card-link" href="{% url 'fluxo_caixa' %}"><p class="card-label">Saldo em caixa</p><strong class="number">R$ {{ saldo|floatformat:2 }}</strong></a>
+    <a class="card card-link" href="{% url 'comissoes' %}"><p class="card-label">Comissões pendentes</p><strong class="number">R$ {{ comissoes_pendentes|floatformat:2 }}</strong></a>
+</section>
+<section class="panel"><div class="panel-header"><div><h2>Resumo do caixa</h2><p class="subtitle">Entradas e saídas já realizadas.</p></div><a class="button" href="{% url 'nova_conta_receber' %}">+ Lançar recebimento</a></div><div class="summary-grid"><div><span>Entradas realizadas</span><strong>R$ {{ total_entradas|floatformat:2 }}</strong></div><div><span>Saídas realizadas</span><strong>R$ {{ total_saidas|floatformat:2 }}</strong></div></div></section>
+<section class="panel"><div class="panel-header"><h2>Próximos lançamentos</h2><a class="button button-secondary" href="{% url 'contas_pagar' %}">Ver contas</a></div>{% if contas %}<div class="table-wrap"><table><thead><tr><th>Descrição</th><th>Tipo</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead><tbody>{% for item in contas %}<tr><td><strong>{{ item.descricao }}</strong></td><td>{{ item.get_tipo_display }}</td><td>{{ item.vencimento|date:'d/m/Y' }}</td><td>R$ {{ item.valor|floatformat:2 }}</td><td>{{ item.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhuma conta financeira cadastrada.</p>{% endif %}</section>
+{% endblock %}

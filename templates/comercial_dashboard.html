@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Comercial | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">Fase 2</p><h1>Comercial</h1><p class="subtitle">Do primeiro contato ao fechamento da venda.</p>{% endblock %}
+{% block content %}
+<section class="cards" aria-label="Indicadores comerciais">
+    <a class="card card-link" href="{% url 'leads' %}"><p class="card-label">Leads no funil</p><strong class="number">{{ total_leads }}</strong></a>
+    <a class="card card-link" href="{% url 'oportunidades' %}"><p class="card-label">Oportunidades abertas</p><strong class="number">{{ total_oportunidades }}</strong></a>
+    <a class="card card-link" href="{% url 'visitas' %}"><p class="card-label">Visitas agendadas</p><strong class="number">{{ total_visitas }}</strong></a>
+    <a class="card card-link" href="{% url 'orcamentos' %}"><p class="card-label">Orçamentos ativos</p><strong class="number">{{ total_orcamentos }}</strong></a>
+</section>
+<section class="panel">
+    <div class="panel-header"><div><h2>Funil de oportunidades</h2><p class="subtitle">Negócios que precisam de atenção.</p></div><a class="button" href="{% url 'nova_oportunidade' %}">+ Nova oportunidade</a></div>
+    {% if oportunidades %}<div class="table-wrap"><table><thead><tr><th>Oportunidade</th><th>Contato</th><th>Etapa</th><th>Valor estimado</th></tr></thead><tbody>{% for oportunidade in oportunidades %}<tr><td><strong>{{ oportunidade.titulo }}</strong></td><td>{% if oportunidade.cliente %}{{ oportunidade.cliente.nome }}{% else %}{{ oportunidade.lead.nome|default:'-' }}{% endif %}</td><td>{{ oportunidade.get_etapa_display }}</td><td>R$ {{ oportunidade.valor_estimado|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhuma oportunidade aberta. Registre o primeiro negócio para começar o acompanhamento.</p>{% endif %}
+</section>
+{% endblock %}

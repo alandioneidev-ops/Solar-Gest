@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block title %}Auditoria | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">Gestão</p><h1>Auditoria</h1><p class="subtitle">Histórico das ações de escrita realizadas no sistema.</p>{% endblock %}
+{% block content %}<section class="panel"><div class="panel-header"><h2>Registro de atividades</h2><span class="subtitle">Últimos 200 eventos</span></div>{% if auditorias %}<div class="table-wrap"><table><thead><tr><th>Data</th><th>Usuário</th><th>Método</th><th>Rota</th><th>IP</th><th>Status</th></tr></thead><tbody>{% for item in auditorias %}<tr><td>{{ item.criado_em|date:'d/m/Y H:i' }}</td><td>{{ item.usuario.username|default:'Sistema' }}</td><td>{{ item.metodo }}</td><td>{{ item.rota }}</td><td>{{ item.ip|default:'-' }}</td><td>{{ item.status_http }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhum evento de auditoria registrado.</p>{% endif %}</section>{% endblock %}

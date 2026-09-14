@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Solar Gest{% endblock %}
+
+{% block heading %}
+<p class="eyebrow">Visão geral</p>
+<h1>Dashboard</h1>
+<p class="subtitle">Acompanhe os principais indicadores da operação.</p>
+{% endblock %}
+
+{% block content %}
+<section class="cards" aria-label="Indicadores">
+    <article class="card"><p class="card-label">Clientes ativos</p><strong class="number">{{ total_clientes }}</strong></article>
+    <a class="card card-link" href="{% url 'comercial' %}"><p class="card-label">Operação comercial</p><strong class="number">Ver</strong></a>
+    <article class="card"><p class="card-label">Obras em andamento</p><strong class="number">0</strong></article>
+    <article class="card"><p class="card-label">Chamados abertos</p><strong class="number">0</strong></article>
+</section>
+<section class="panel">
+    <div class="panel-header"><h2>Clientes recentes</h2><a class="button" href="{% url 'novo_cliente' %}">+ Novo cliente</a></div>
+    {% if clientes %}
+    <div class="table-wrap"><table><thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Documento</th></tr></thead><tbody>{% for cliente in clientes %}<tr><td><strong>{{ cliente.nome }}</strong></td><td>{{ cliente.telefone|default:'-' }}</td><td>{{ cliente.email|default:'-' }}</td><td>{{ cliente.documento|default:'-' }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<p class="empty">Nenhum cliente cadastrado ainda. Comece adicionando o primeiro cliente da sua carteira.</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Comercial | Solar Gest{% endblock %}
-{% block heading %}<p class="eyebrow">Fase 2</p><h1>Comercial</h1><p class="subtitle">Do primeiro contato ao fechamento da venda.</p>{% endblock %}
+{% block title %}{% if LANGUAGE_CODE == 'it' %}Commerciale{% else %}Comercial{% endif %} | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">{% if LANGUAGE_CODE == 'it' %}Fase 2{% else %}Fase 2{% endif %}</p><h1>{% if LANGUAGE_CODE == 'it' %}Commerciale{% else %}Comercial{% endif %}</h1><p class="subtitle">{% if LANGUAGE_CODE == 'it' %}Dal primo contatto alla chiusura della vendita.{% else %}Do primeiro contato ao fechamento da venda.{% endif %}</p>{% endblock %}
 {% block content %}
 <section class="cards" aria-label="Indicadores comerciais">
-    <a class="card card-link" href="{% url 'leads' %}"><p class="card-label">Leads no funil</p><strong class="number">{{ total_leads }}</strong></a>
-    <a class="card card-link" href="{% url 'oportunidades' %}"><p class="card-label">Oportunidades abertas</p><strong class="number">{{ total_oportunidades }}</strong></a>
-    <a class="card card-link" href="{% url 'visitas' %}"><p class="card-label">Visitas agendadas</p><strong class="number">{{ total_visitas }}</strong></a>
-    <a class="card card-link" href="{% url 'orcamentos' %}"><p class="card-label">Orçamentos ativos</p><strong class="number">{{ total_orcamentos }}</strong></a>
+    <a class="card card-link" href="{% url 'leads' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Lead nel funnel{% else %}Leads no funil{% endif %}</p><strong class="number">{{ total_leads }}</strong></a>
+    <a class="card card-link" href="{% url 'oportunidades' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Opportunità aperte{% else %}Oportunidades abertas{% endif %}</p><strong class="number">{{ total_oportunidades }}</strong></a>
+    <a class="card card-link" href="{% url 'visitas' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Visite programmate{% else %}Visitas agendadas{% endif %}</p><strong class="number">{{ total_visitas }}</strong></a>
+    <a class="card card-link" href="{% url 'orcamentos' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Preventivi attivi{% else %}Orçamentos ativos{% endif %}</p><strong class="number">{{ total_orcamentos }}</strong></a>
 </section>
 <section class="panel">
-    <div class="panel-header"><div><h2>Funil de oportunidades</h2><p class="subtitle">Negócios que precisam de atenção.</p></div><a class="button" href="{% url 'nova_oportunidade' %}">+ Nova oportunidade</a></div>
-    {% if oportunidades %}<div class="table-wrap"><table><thead><tr><th>Oportunidade</th><th>Contato</th><th>Etapa</th><th>Valor estimado</th></tr></thead><tbody>{% for oportunidade in oportunidades %}<tr><td><strong>{{ oportunidade.titulo }}</strong></td><td>{% if oportunidade.cliente %}{{ oportunidade.cliente.nome }}{% else %}{{ oportunidade.lead.nome|default:'-' }}{% endif %}</td><td>{{ oportunidade.get_etapa_display }}</td><td>R$ {{ oportunidade.valor_estimado|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhuma oportunidade aberta. Registre o primeiro negócio para começar o acompanhamento.</p>{% endif %}
+    <div class="panel-header"><div><h2>{% if LANGUAGE_CODE == 'it' %}Funnel delle opportunità{% else %}Funil de oportunidades{% endif %}</h2><p class="subtitle">{% if LANGUAGE_CODE == 'it' %}Affari che richiedono attenzione.{% else %}Negócios que precisam de atenção.{% endif %}</p></div><a class="button" href="{% url 'nova_oportunidade' %}">+ {% if LANGUAGE_CODE == 'it' %}Nuova opportunità{% else %}Nova oportunidade{% endif %}</a></div>
+    {% if oportunidades %}<div class="table-wrap"><table><thead><tr><th>{% if LANGUAGE_CODE == 'it' %}Opportunità{% else %}Oportunidade{% endif %}</th><th>{% if LANGUAGE_CODE == 'it' %}Contatto{% else %}Contato{% endif %}</th><th>{% if LANGUAGE_CODE == 'it' %}Fase{% else %}Etapa{% endif %}</th><th>{% if LANGUAGE_CODE == 'it' %}Valore stimato{% else %}Valor estimado{% endif %}</th></tr></thead><tbody>{% for oportunidade in oportunidades %}<tr><td><strong>{{ oportunidade.titulo }}</strong></td><td>{% if oportunidade.cliente %}{{ oportunidade.cliente.nome }}{% else %}{{ oportunidade.lead.nome|default:'-' }}{% endif %}</td><td>{{ oportunidade.get_etapa_display }}</td><td>€ {{ oportunidade.valor_estimado|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">{% if LANGUAGE_CODE == 'it' %}Nessuna opportunità aperta. Registra il primo affare per iniziare il monitoraggio.{% else %}Nenhuma oportunidade aberta. Registre o primeiro negócio para começar o acompanhamento.{% endif %}</p>{% endif %}
 </section>
 {% endblock %}

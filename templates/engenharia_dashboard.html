@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Engenharia | Solar Gest{% endblock %}
-{% block heading %}<p class="eyebrow">Fase 3</p><h1>Engenharia</h1><p class="subtitle">Projetos solares do cálculo à documentação técnica.</p>{% endblock %}
+{% block title %}{% if LANGUAGE_CODE == 'it' %}Ingegneria{% else %}Engenharia{% endif %} | Solar Gest{% endblock %}
+{% block heading %}<p class="eyebrow">Fase 3</p><h1>{% if LANGUAGE_CODE == 'it' %}Ingegneria{% else %}Engenharia{% endif %}</h1><p class="subtitle">{% if LANGUAGE_CODE == 'it' %}Progetti solari dal calcolo alla documentazione tecnica.{% else %}Projetos solares do cálculo à documentação técnica.{% endif %}</p>{% endblock %}
 {% block content %}
 <section class="cards" aria-label="Indicadores de engenharia">
-    <a class="card card-link" href="{% url 'projetos' %}"><p class="card-label">Projetos</p><strong class="number">{{ total_projetos }}</strong></a>
-    <a class="card card-link" href="{% url 'dimensionamentos' %}"><p class="card-label">Dimensionamentos</p><strong class="number">{{ total_dimensionamentos }}</strong></a>
-    <a class="card card-link" href="{% url 'sistemas' %}"><p class="card-label">Sistemas solares</p><strong class="number">{{ total_sistemas }}</strong></a>
-    <a class="card card-link" href="{% url 'equipamentos' %}"><p class="card-label">Equipamentos ativos</p><strong class="number">{{ total_equipamentos }}</strong></a>
+    <a class="card card-link" href="{% url 'projetos' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Progetti{% else %}Projetos{% endif %}</p><strong class="number">{{ total_projetos }}</strong></a>
+    <a class="card card-link" href="{% url 'dimensionamentos' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Dimensionamenti{% else %}Dimensionamentos{% endif %}</p><strong class="number">{{ total_dimensionamentos }}</strong></a>
+    <a class="card card-link" href="{% url 'sistemas' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Impianti solari{% else %}Sistemas solares{% endif %}</p><strong class="number">{{ total_sistemas }}</strong></a>
+    <a class="card card-link" href="{% url 'equipamentos' %}"><p class="card-label">{% if LANGUAGE_CODE == 'it' %}Apparecchiature attive{% else %}Equipamentos ativos{% endif %}</p><strong class="number">{{ total_equipamentos }}</strong></a>
 </section>
 <section class="panel">
-    <div class="panel-header"><div><h2>Projetos recentes</h2><p class="subtitle">Acompanhe o avanço dos projetos fotovoltaicos.</p></div><a class="button" href="{% url 'novo_projeto' %}">+ Novo projeto</a></div>
-    {% if projetos %}<div class="table-wrap"><table><thead><tr><th>Código</th><th>Projeto</th><th>Cliente</th><th>Status</th></tr></thead><tbody>{% for item in projetos %}<tr><td><strong>{{ item.codigo }}</strong></td><td>{{ item.nome }}</td><td>{{ item.cliente.nome }}</td><td>{{ item.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">Nenhum projeto cadastrado. Crie o primeiro projeto a partir de um cliente.</p>{% endif %}
+    <div class="panel-header"><div><h2>{% if LANGUAGE_CODE == 'it' %}Progetti recenti{% else %}Projetos recentes{% endif %}</h2><p class="subtitle">{% if LANGUAGE_CODE == 'it' %}Segui l'avanzamento dei progetti fotovoltaici.{% else %}Acompanhe o avanço dos projetos fotovoltaicos.{% endif %}</p></div><a class="button" href="{% url 'novo_projeto' %}">+ {% if LANGUAGE_CODE == 'it' %}Nuovo progetto{% else %}Novo projeto{% endif %}</a></div>
+    {% if projetos %}<div class="table-wrap"><table><thead><tr><th>Codice</th><th>Progetto</th><th>Cliente</th><th>Stato</th></tr></thead><tbody>{% for item in projetos %}<tr><td><strong>{{ item.codigo }}</strong></td><td>{{ item.nome }}</td><td>{{ item.cliente.nome }}</td><td>{{ item.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="empty">{% if LANGUAGE_CODE == 'it' %}Nessun progetto registrato. Crea il primo progetto partendo da un cliente.{% else %}Nenhum projeto cadastrado. Crie o primeiro projeto a partir de um cliente.{% endif %}</p>{% endif %}
 </section>
 {% endblock %}

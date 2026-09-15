@@ -1,6 +1,6 @@
 {% load static i18n %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,5 +80,34 @@
         {% block content %}{% endblock %}
     </main>
 </div>
+<script>
+    (function () {
+        if ("{{ LANGUAGE_CODE }}" !== "it") return;
+        const translations = {
+            "Visão geral": "Panoramica", "Dashboard": "Dashboard", "Acompanhe os principais indicadores da operação.": "Monitora i principali indicatori operativi.",
+            "Clientes ativos": "Clienti attivi", "Operação comercial": "Operazioni commerciali", "Ver": "Vedi", "Obras em andamento": "Lavori in corso", "Chamados abertos": "Richieste aperte",
+            "Clientes recentes": "Clienti recenti", "Novo cliente": "Nuovo cliente", "Telefone": "Telefono", "Documento": "Documento", "Salvar cliente": "Salva cliente", "Cancelar": "Annulla",
+            "Carteira de clientes": "Portafoglio clienti", "Cadastre os dados principais para iniciar o relacionamento.": "Inserisci i dati principali per iniziare la relazione.", "Nome completo": "Nome completo", "CPF / CNPJ": "Codice fiscale / Partita IVA", "Endereço": "Indirizzo",
+            "Fase 2": "Fase 2", "Fase 3": "Fase 3", "Fase 5": "Fase 5", "Fase 7": "Fase 7", "Do primeiro contato ao fechamento da venda.": "Dal primo contatto alla chiusura della vendita.",
+            "Leads no funil": "Lead nel funnel", "Oportunidades abertas": "Opportunità aperte", "Visitas agendadas": "Visite programmate", "Orçamentos ativos": "Preventivi attivi", "Funil de oportunidades": "Funnel delle opportunità", "Negócios que precisam de atenção.": "Affari che richiedono attenzione.", "Nova oportunidade": "Nuova opportunità", "Oportunidade": "Opportunità", "Contato": "Contatto", "Etapa": "Fase", "Valor estimado": "Valore stimato", "Nenhuma oportunidade aberta. Registre o primeiro negócio para começar o acompanhamento.": "Nessuna opportunità aperta. Registra il primo affare per iniziare il monitoraggio.",
+            "Potenciais clientes e novos contatos.": "Potenziali clienti e nuovi contatti.", "Registros": "Registri", "Nome": "Nome", "Origem": "Origine", "Status": "Stato", "Responsável": "Responsabile", "Nenhum lead cadastrado.": "Nessun lead registrato.", "Novo lead": "Nuovo lead",
+            "Engenharia": "Ingegneria", "Projetos solares do cálculo à documentação técnica.": "Progetti solari dal calcolo alla documentazione tecnica.", "Projetos": "Progetti", "Dimensionamentos": "Dimensionamenti", "Sistemas solares": "Impianti solari", "Equipamentos ativos": "Apparecchiature attive", "Projetos recentes": "Progetti recenti", "Novo projeto": "Nuovo progetto", "Nenhum projeto cadastrado.": "Nessun progetto registrato.", "Projeto": "Progetto", "Potência": "Potenza",
+            "Financeiro": "Finanza", "Visão integrada de compromissos, caixa e comissões.": "Visione integrata di impegni, cassa e commissioni.", "A pagar": "Da pagare", "A receber": "Da ricevere", "Saldo em caixa": "Saldo di cassa", "Comissões pendentes": "Commissioni pendenti", "Resumo do caixa": "Riepilogo della cassa", "Entradas realizadas": "Entrate registrate", "Saídas realizadas": "Uscite registrate", "Lançar recebimento": "Registra incasso", "Próximos lançamentos": "Prossime scadenze", "Ver contas": "Vedi conti", "Descrição": "Descrizione", "Vencimento": "Scadenza", "Valor": "Valore", "Nenhuma conta financeira cadastrada.": "Nessun conto finanziario registrato.",
+            "Gestão": "Gestione", "Visão executiva da operação Solar Gest.": "Visione esecutiva delle operazioni Solar Gest.", "Atendimentos abertos": "Assistenza aperta", "Indicadores financeiros": "Indicatori finanziari", "Valores em aberto e saldo realizado.": "Valori aperti e saldo realizzato.", "Ver relatórios": "Vedi rapporti", "Alertas abertos": "Avvisi aperti", "Atividade recente": "Attività recente", "Abrir auditoria": "Apri audit", "Nenhuma atividade registrada ainda.": "Nessuna attività registrata.", "Relatórios": "Rapporti", "Indicadores disponíveis": "Indicatori disponibili", "Baixar CSV": "Scarica CSV", "Relatório financeiro": "Rapporto finanziario", "Atendimentos": "Assistenza",
+            "Usinas": "Impianti", "Nenhuma usina cadastrada.": "Nessun impianto registrato.", "Equipe": "Squadra", "Usuários ativos": "Utenti attivi", "Usuário": "Utente", "Cargo": "Ruolo", "Nenhum usuário ativo.": "Nessun utente attivo.", "Administrador": "Amministratore", "Idioma": "Lingua", "Sair": "Esci", "Salvar registro": "Salva registro", "Salvar lançamento": "Salva registrazione", "Selecione": "Seleziona", "Observações": "Note"
+        };
+        const phrases = Object.keys(translations).sort((a, b) => b.length - a.length);
+        const translate = (value) => phrases.reduce((text, phrase) => text.split(phrase).join(translations[phrase]), value);
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach((node) => { node.nodeValue = translate(node.nodeValue); });
+        document.querySelectorAll("input[placeholder], input[value], textarea[placeholder], [aria-label], [title]").forEach((element) => {
+            ["placeholder", "value", "aria-label", "title"].forEach((attribute) => {
+                if (element.hasAttribute(attribute)) element.setAttribute(attribute, translate(element.getAttribute(attribute)));
+            });
+        });
+    }());
+</script>
 </body>
 </html>

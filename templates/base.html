@@ -72,7 +72,7 @@
             <div>{% block heading %}{% endblock %}</div>
             <div class="account">
                 <span class="avatar">{{ user.username|first|upper }}</span>
-                <span><span class="account-name">{{ user.get_full_name|default:user.username }}</span><span class="account-role">{% if user.is_superuser %}Administrador{% elif user.perfil %}{{ user.perfil.get_cargo_display }}{% else %}Usuário{% endif %}</span></span>
+                <span><span class="account-name">{{ user.get_full_name|default:user.username }}</span><span class="account-role">{% if user.is_superuser %}{% if LANGUAGE_CODE == 'it' %}Amministratore{% else %}Administrador{% endif %}{% elif user.perfil %}{{ user.perfil.get_cargo_display }}{% else %}{% if LANGUAGE_CODE == 'it' %}Utente{% else %}Usuário{% endif %}{% endif %}</span></span>
                 <form class="language-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><label class="sr-only" for="language-select">{{ ui.language }}</label><select class="language-select" id="language-select" name="language" onchange="this.form.submit()">{% get_current_language as CURRENT_LANGUAGE %}{% get_available_languages as AVAILABLE_LANGUAGES %}{% for code, name in AVAILABLE_LANGUAGES %}<option value="{{ code }}"{% if code == CURRENT_LANGUAGE %} selected{% endif %}>{{ name }}</option>{% endfor %}</select></form>
                 <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout" type="submit">{{ ui.logout }}</button></form>
             </div>

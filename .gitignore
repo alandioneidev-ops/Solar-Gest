@@ -5,6 +5,10 @@ __pycache__/
 venv/
 .venv/
 env/
+node_modules/
+frontend/dist/
+backend/.env
+frontend/.env
 
 # Local development files
 db.sqlite3
